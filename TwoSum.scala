@@ -8,25 +8,35 @@ object TwoSum{
 	val myMap = Map[Int,Int]()
 
 	def main(args: Array[String]){
-		val l = List(2,7,11,15,3,27,4,0)
-		val target = 26
+		val l = List(2,7,11,15,3,27,4,0,-18)
+		val target = args(0).toInt
 		try{
 			println(twoSum(l,target))
+			println(maximum(l))
 		} catch {
 			case NoSolutionException => println("No solution found. Sorry...")
 		}
 	}
 
-	def twoSum(nums: List[Int], target: Int) = {
+	@tailrec
+	def twoSum(nums: List[Int], target: Int, index: Int = 0): List[Int] = {
+		if(nums == Nil) throw NoSolutionException
+		val ret = myMap.get(target - nums.head)
+		ret match {
+			case Some(ret) => List(ret, index)
+			case None => myMap(nums.head) = index; twoSum(nums.tail, target, index + 1)
+		}
+	}
+
+	def maximum(nums: List[Int]) = {
 		@tailrec
-		def recursiveComplement(nums: List[Int], target: Int, index: Int): List[Int] = {
-			if(nums.length == 0) throw NoSolutionException
-			val ret = myMap.get(target - nums.head)
-			ret match {
-				case Some(ret) => List(ret, index)
-				case None => myMap(nums.head) = index; recursiveComplement(nums.tail, target, index + 1)
+		def maximum_helper(nums: List[Int], currentMax: Int): Int = {
+			nums match {
+				case Nil => currentMax
+				case _ if nums.head > currentMax => maximum_helper(nums.tail, nums.head)
+				case _ => maximum_helper(nums.tail, currentMax)
 			}
 		}
-		recursiveComplement(nums, target, 0)
+		if(nums == Nil) throw NoSolutionException else maximum_helper(nums.tail, nums.head)
 	}
 }
