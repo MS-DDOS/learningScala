@@ -5,7 +5,7 @@ object NoSolutionException extends Exception{}
 
 object TwoSum{
 
-	val myMap = Map[Int,Int]()
+	val myMap = Map[Int,Int]() // THIS IS LEAKING SO MUCH STATE ITS RIDICULOUS. WRAP IT UP BOI
 
 	def main(args: Array[String]){
 		val l = List(2,7,11,15,3,27,4,0,-18)
