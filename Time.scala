@@ -1,16 +1,15 @@
 case class InvalidTimeException(message: String = "") extends Exception{}
 
-class Time{
+class Time(h: Int, m: Int){
 	private var minutes = 0
-	def this(hours: Int, mins: Int) = {
-		this()
-		if(hours > 23 || hours < 0) throw InvalidTimeException("Hours field must have a value between 0 and 23!")
-		if(minutes > 60 || minutes < 0) throw InvalidTimeException("Minutes field must have a value between 0 and 60!")
-		minutes = Time.flattenToMinutes(hours, mins)
-	}
+
 	def hours = {minutes / 60}
 	def mins = {minutes % 60}
 	def before(other: Time) = {minutes < other.minutes}
+
+	if(h > 23 || h < 0) throw InvalidTimeException("Hours field must have a value between 0 and 23!")
+	if(m > 60 || m < 0) throw InvalidTimeException("Minutes field must have a value between 0 and 60!")
+	minutes = Time.flattenToMinutes(h, m)
 }
 
 object Time {
