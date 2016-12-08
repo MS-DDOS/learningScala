@@ -4,15 +4,14 @@ class BankAccount(private var accountBalance: Double = 0.0) {
 	def balance = accountBalance
 	def deposit(amt: Double = 0.0) = {accountBalance += amt}
 	def withdraw(amt: Double = 0.0) = {
-		if(amt <= accountBalance) 
-			accountBalance -= amt 
-		else 
-			throw InsufficientFundsException("Your account has insufficient funds ($" + this.balance + ") for a withdrawal of $" + amt)
+		amt match{
+			case _ if amt <= accountBalance => accountBalance -= amt
+			case _ => throw InsufficientFundsException("Your account has insufficient funds ($" + this.balance + ") for a withdrawal of $" + amt)
+		}
 	}
 }
 
-object BankAccount {
-
+object BankAccount { 
 	def main(args: Array[String]) {
 		val acct = new BankAccount()
 		try {
@@ -23,7 +22,5 @@ object BankAccount {
 		} catch {
 			case e: InsufficientFundsException => println(e.message)
 		}
-
 	}
-
 }
